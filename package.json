@@ -32,7 +32,8 @@
   "workspaces": [
     "packages/*",
     "packages/git/*",
-    "packages/cli-tools/git/*"
+    "packages/cli-tools/git/*",
+    "packages/cli-tools/*"
   ],
   "dependencies": {}
 }

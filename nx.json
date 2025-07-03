@@ -30,7 +30,8 @@
       "exclude": [
         "packages/git/data-access/*",
         "packages/cli-tools/git/metrics/*",
-        "packages/cli-tools/git/data-access/*"
+        "packages/cli-tools/git/data-access/*",
+        "packages/cli-tools/project-discovery/*"
       ]
     },
     {
@@ -38,7 +39,8 @@
       "include": [
         "packages/git/data-access/*",
         "packages/cli-tools/git/metrics/*",
-        "packages/cli-tools/git/data-access/*"
+        "packages/cli-tools/git/data-access/*",
+        "packages/cli-tools/project-discovery/*"
       ],
       "options": {
         "typecheck": {
