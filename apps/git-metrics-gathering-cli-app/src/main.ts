@@ -7,26 +7,31 @@ import { updateReadmeSection } from '@nx-take-home-npm/readme-manager';
 
 const program = new Command();
 
+export async function runCli(repoRoot: string) {
+  try {
+    const packagePaths = projectDiscovery(repoRoot).map((pkg) =>
+      join('packages', pkg)
+    );
+    if (packagePaths.length === 0) {
+      console.warn('⚠️ No valid packages found. Exiting.');
+      process.exit(0);
+    }
+    const count = await countMultiProjectContributors(repoRoot, packagePaths);
+    updateReadmeSection(repoRoot, count);
+    console.log(`✅ Counted ${count} cross-project contributors`);
+  } catch (error) {
+    console.error(`❌ Error: ${(error as Error).message}`);
+    process.exit(1);
+  }
+}
+
 program
   .name('contributor-metrics')
   .description('Counts contributors who committed to multiple projects')
   .argument('<repoRoot>', 'Path to the git repository')
-  .action(async (repoRoot) => {
-    try {
-      const packagePaths = projectDiscovery(repoRoot).map((pkg) =>
-        join('packages', pkg)
-      );
-      if (packagePaths.length === 0) {
-        console.warn('⚠️ No valid packages found. Exiting.');
-        process.exit(0);
-      }
-      const count = await countMultiProjectContributors(repoRoot, packagePaths);
-      updateReadmeSection(repoRoot, count);
-      console.log(`✅ Counted ${count} cross-project contributors`);
-    } catch (error) {
-      console.error(`❌ Error: ${(error as Error).message}`);
-      process.exit(1);
-    }
-  });
+  .action(runCli);
 
-program.parse();
+// Only run if called from CLI directly (not during tests)
+if (require.main === module) {
+  program.parse();
+}
