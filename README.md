@@ -32,10 +32,10 @@ This monorepo contains a CLI tool written in **TypeScript** and structured as an
 
 Given a Git repo root path, the CLI:
 
-1. Discovers all local packages (e.g., under `packages/`)
+1. Discovers all local packages under `packages/`
 2. Aggregates commit authors per package
 3. Identifies contributors who worked across multiple packages
-4. Optionally updates the repo’s `README.md` with the result
+4. Updates or adds a section in the repo’s `README.md` with the result
 
 ---
 
