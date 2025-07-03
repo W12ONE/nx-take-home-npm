@@ -17,6 +17,9 @@
     },
     {
       "path": "./packages/cli-tools/readme-manager"
+    },
+    {
+      "path": "./apps/git-metrics-gathering-cli-app"
     }
   ]
 }
