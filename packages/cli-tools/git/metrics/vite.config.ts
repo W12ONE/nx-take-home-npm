@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../../node_modules/.vite/packages/git/data-access',
+  cacheDir: '../../../../node_modules/.vite/packages/cli-tools/git/metrics',
   plugins: [],
   // Uncomment this if you are using workers.
   // worker: {
