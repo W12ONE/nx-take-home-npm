@@ -11,6 +11,9 @@
     },
     {
       "path": "./packages/cli-tools/git/data-access"
+    },
+    {
+      "path": "./packages/cli-tools/project-discovery"
     }
   ]
 }
