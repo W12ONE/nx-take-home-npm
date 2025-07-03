@@ -31,7 +31,8 @@
         "packages/git/data-access/*",
         "packages/cli-tools/git/metrics/*",
         "packages/cli-tools/git/data-access/*",
-        "packages/cli-tools/project-discovery/*"
+        "packages/cli-tools/project-discovery/*",
+        "packages/cli-tools/readme-manager/*"
       ]
     },
     {
@@ -40,7 +41,8 @@
         "packages/git/data-access/*",
         "packages/cli-tools/git/metrics/*",
         "packages/cli-tools/git/data-access/*",
-        "packages/cli-tools/project-discovery/*"
+        "packages/cli-tools/project-discovery/*",
+        "packages/cli-tools/readme-manager/*"
       ],
       "options": {
         "typecheck": {
