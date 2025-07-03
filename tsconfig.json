@@ -14,6 +14,9 @@
     },
     {
       "path": "./packages/cli-tools/project-discovery"
+    },
+    {
+      "path": "./packages/cli-tools/readme-manager"
     }
   ]
 }
