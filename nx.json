@@ -27,11 +27,19 @@
           "watchDepsName": "watch-deps"
         }
       },
-      "exclude": ["packages/git/data-access/*"]
+      "exclude": [
+        "packages/git/data-access/*",
+        "packages/cli-tools/git/metrics/*",
+        "packages/cli-tools/git/data-access/*"
+      ]
     },
     {
       "plugin": "@nx/js/typescript",
-      "include": ["packages/git/data-access/*"],
+      "include": [
+        "packages/git/data-access/*",
+        "packages/cli-tools/git/metrics/*",
+        "packages/cli-tools/git/data-access/*"
+      ],
       "options": {
         "typecheck": {
           "targetName": "typecheck"

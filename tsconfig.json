@@ -5,6 +5,12 @@
   "references": [
     {
       "path": "./packages/git/data-access"
+    },
+    {
+      "path": "./packages/cli-tools/git/metrics"
+    },
+    {
+      "path": "./packages/cli-tools/git/data-access"
     }
   ]
 }
