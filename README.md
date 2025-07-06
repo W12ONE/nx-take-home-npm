@@ -98,7 +98,8 @@ This reduced execution time from **~8.5s** to around **2.2s**.
 
 A single git log is executed across the whole repo and then filtered in memory to match the desired subdirectories.
 This further reduced the execution time to around 1.6s, but introduced additional complexity.
-Note that the data-access package is no longer used in this version. It should be cleaned up or refactored so that the git log call is properly encapsulated there again.
+
+Note that the data-access package is no longer used in this version. The code should be refactored so that the git log call is properly encapsulated there again.
 It has been retained for now, as the primary focus was on exploring optimisation potential.
 Tests will also need to be adjusted before this branch is ready for a pull request.
 
