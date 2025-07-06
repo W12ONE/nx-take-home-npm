@@ -3,7 +3,7 @@
 > **Note:** This is the complete version of the CLI.  
 > There is still some potential for optimisation (see _Performance Optimisations_ below).
 
-This monorepo contains a CLI tool written in **TypeScript** and structured as an **Nx workspace**. It analyzes Git contributor activity across multiple packages in a monorepo.
+This monorepo contains a CLI tool written in **TypeScript** and structured as an **Nx workspace**. It analyses Git contributor activity across multiple packages in a monorepo.
 
 ---
 
@@ -13,7 +13,7 @@ This monorepo contains a CLI tool written in **TypeScript** and structured as an
 - **Commander** – CLI interface and argument parsing
 - **simple-git** – Lightweight Git wrapper for commit analytics
 - **tsx** – Run `.ts` files directly without precompilation
-- **Jest & Vitest** – Unit test coverage for CLI behavior
+- **Jest & Vitest** – Unit test coverage for CLI behaviour
 
 ---
 
@@ -82,7 +82,7 @@ npm run run-app-nx
 
 ## 🧪 Performance Optimisations
 
-To improve runtime performance — especially when analyzing large repositories like the full Nx monorepo — two different optimisation strategies were implemented and tested.
+To improve runtime performance — especially when analysing large repositories like the full Nx monorepo — two different optimisation strategies were implemented and tested.
 
 The optimisations are available on separate branches:
 
@@ -96,10 +96,13 @@ This reduced execution time from **~8.5s** to around **2.2s**.
 
 ### ⚡️ Optimisation 2: Single Git Call + In-Memory Filtering
 
-A single `git log` is executed across the whole repo and then filtered in memory to match the desired subdirectories.  
-This further reduced the execution time to around **1.6s**, but introduced additional complexity.
+A single git log is executed across the whole repo and then filtered in memory to match the desired subdirectories.
+This further reduced the execution time to around 1.6s, but introduced additional complexity.
+Note that the data-access package is no longer used in this version. It should be cleaned up or refactored so that the git log call is properly encapsulated there again.
+It has been retained for now, as the primary focus was on exploring optimisation potential.
+Tests will also need to be adjusted before this branch is ready for a pull request.
 
-> At this stage, I'd lean toward **parallelisation** for its balance of clarity and performance.  
+> At this stage, I'd lean towards **parallelisation** for its balance of clarity and performance.  
 > However, if this were to be used in production or at larger scale, the added complexity of the single-call strategy would likely be worth the reduced execution time.
 
 ---
