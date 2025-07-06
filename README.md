@@ -1,7 +1,7 @@
 # Git Metrics Gathering CLI (Nx Workspace)
 
 > **Note:** This is the complete version of the CLI.  
-> There is still some potential for optimisation (see _Known Issues_ below).
+> There is still some potential for optimisation (see _Performance Optimisations_ below).
 
 This monorepo contains a CLI tool written in **TypeScript** and structured as an **Nx workspace**. It analyzes Git contributor activity across multiple packages in a monorepo.
 
@@ -80,11 +80,31 @@ npm run run-app-nx
 
 ---
 
-## 🐞 Known Issues
+## 🧪 Performance Optimisations
 
-- **Performance (on large repos)**:  
-  Git queries run sequentially — parallelization is a clear next step.  
-  This was left unoptimized to stay within the **2.5-hour time budget**.
+To improve runtime performance — especially when analyzing large repositories like the full Nx monorepo — two different optimisation strategies were implemented and tested.
+
+The optimisations are available on separate branches:
+
+- [`performance-optimization`](https://github.com/W12ONE/nx-take-home-npm/tree/performance-optimization)
+- [`performanmce-optimization-2`](https://github.com/W12ONE/nx-take-home-npm/tree/performanmce-optimization-2) _(typo in branch name)_
+
+### 🚀 Optimisation 1: Parallelisation
+
+Each Git log command for a subdirectory is executed in parallel.  
+This reduced execution time from **~8.5s** to around **2.2s**.
+
+### ⚡️ Optimisation 2: Single Git Call + In-Memory Filtering
+
+A single `git log` is executed across the whole repo and then filtered in memory to match the desired subdirectories.  
+This further reduced the execution time to around **1.6s**, but introduced additional complexity.
+
+> At this stage, I'd lean toward **parallelisation** for its balance of clarity and performance.  
+> However, if this were to be used in production or at larger scale, the added complexity of the single-call strategy would likely be worth the reduced execution time.
+
+---
+
+## 🐞 Known Issues
 
 - **CI Cache misses**:  
   Nx Cloud Cache misses in CI. Need to check that out.
