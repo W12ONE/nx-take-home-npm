@@ -6,21 +6,29 @@ async function getContributorProjectMap(
 ): Promise<Map<string, Set<string>>> {
   const contributorMap = new Map<string, Set<string>>();
 
-  for (const path of subPaths) {
-    try {
-      const contributors = await getContributorsForPath(repoRoot, path);
-      const projectName = path.split('/').pop();
-
-      for (const email of contributors) {
-        if (!contributorMap.has(email)) {
-          contributorMap.set(email, new Set());
-        }
-        contributorMap.get(email)?.add(projectName ?? path);
+  const results = await Promise.all(
+    subPaths.map(async (path) => {
+      try {
+        const contributors = await getContributorsForPath(repoRoot, path);
+        const projectName = path.split('/').pop() ?? path;
+        return { path, projectName, contributors };
+      } catch (err) {
+        console.error(`❌ Failed to process ${path}:`, err);
+        return null;
       }
-    } catch (err) {
-      console.error(err);
+    })
+  );
+
+  for (const result of results) {
+    if (!result) continue;
+    for (const email of result.contributors) {
+      if (!contributorMap.has(email)) {
+        contributorMap.set(email, new Set());
+      }
+      contributorMap.get(email)?.add(result.projectName);
     }
   }
+
   console.log(`Contributors found: ${contributorMap.size}`);
   return contributorMap;
 }

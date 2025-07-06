@@ -8,6 +8,7 @@ import { updateReadmeSection } from '@nx-take-home-npm/readme-manager';
 const program = new Command();
 
 export async function runCli(repoRoot: string) {
+  console.time('⏱ Git contributor collection');
   try {
     const packagePaths = projectDiscovery(repoRoot).map((pkg) =>
       join('packages', pkg)
@@ -19,6 +20,7 @@ export async function runCli(repoRoot: string) {
     const count = await countMultiProjectContributors(repoRoot, packagePaths);
     updateReadmeSection(repoRoot, count);
     console.log(`✅ Counted ${count} cross-project contributors`);
+    console.timeEnd('⏱ Git contributor collection');
   } catch (error) {
     console.error(`❌ Error: ${(error as Error).message}`);
     process.exit(1);
