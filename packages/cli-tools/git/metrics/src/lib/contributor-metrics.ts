@@ -1,31 +1,51 @@
-import { getContributorsForPath } from '@nx-take-home-npm/data-access';
+import { simpleGit } from 'simple-git';
+import { resolve } from 'path';
 
-async function getContributorProjectMap(
+export async function getContributorProjectMap(
   repoRoot: string,
   subPaths: string[]
 ): Promise<Map<string, Set<string>>> {
   const contributorMap = new Map<string, Set<string>>();
+  const git = simpleGit(resolve(repoRoot));
 
-  const results = await Promise.all(
-    subPaths.map(async (path) => {
-      try {
-        const contributors = await getContributorsForPath(repoRoot, path);
-        const projectName = path.split('/').pop() ?? path;
-        return { path, projectName, contributors };
-      } catch (err) {
-        console.error(`❌ Failed to process ${path}:`, err);
-        return null;
-      }
-    })
-  );
+  console.time('⏱ Single git log for all packages');
 
-  for (const result of results) {
-    if (!result) continue;
-    for (const email of result.contributors) {
-      if (!contributorMap.has(email)) {
-        contributorMap.set(email, new Set());
+  const log = await git.raw([
+    'log',
+    '--name-only',
+    '--pretty=format:%ae',
+    '--',
+    ...subPaths,
+  ]);
+
+  console.timeEnd('⏱ Single git log for all packages');
+
+  let currentEmail = '';
+  const lines = log.split('\n');
+
+  const pathToProject = new Map<string, string>();
+  for (const sub of subPaths) {
+    const parts = sub.split('/');
+    const project = parts[parts.length - 1];
+    pathToProject.set(sub, project);
+  }
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+
+    if (trimmed.includes('@')) {
+      currentEmail = trimmed;
+    } else if (currentEmail) {
+      for (const [subPath, projectName] of pathToProject.entries()) {
+        if (trimmed.startsWith(subPath)) {
+          if (!contributorMap.has(currentEmail)) {
+            contributorMap.set(currentEmail, new Set());
+          }
+          contributorMap.get(currentEmail)?.add(projectName);
+          break;
+        }
       }
-      contributorMap.get(email)?.add(result.projectName);
     }
   }
 
