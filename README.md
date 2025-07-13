@@ -105,10 +105,3 @@ Tests will also need to be adjusted before this branch is ready for a pull reque
 
 > At this stage, I'd lean towards **parallelisation** for its balance of clarity and performance.  
 > However, if this were to be used in production or at larger scale, the added complexity of the single-call strategy would likely be worth the reduced execution time.
-
----
-
-## 🐞 Known Issues
-
-- **CI Cache misses**:  
-  Nx Cloud Cache misses in CI. Need to check that out.
